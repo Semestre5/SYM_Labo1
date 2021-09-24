@@ -83,34 +83,34 @@ public class MainActivity extends AppCompatActivity {
                         getString(R.string.main_invalid_email), Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                boolean emailFound = false;
                 for (Pair<String, String> cred: credentials) {
                     if (cred.first.equals(emailInput)) {
-                        emailFound = true;
                         if (!cred.second.equals(passwordInput)) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setMessage(getString(R.string.main_password_err));
-                            // Add the buttons
-                            builder.setPositiveButton(getString(R.string.main_ok), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // User clicked OK button
-                                }
-                            });
-                            builder.create().show();
-                            return;
+                            generateCredentialAlert();
                         } else {
                             //connect
                         }
+                        return;
+                    } else {
+                        generateCredentialAlert().show();
+                        return;
                     }
-                }
-                if (!emailFound) {
-                    email.setError(getString(R.string.main_email_mismatch_err));
                 }
             }
 
             //TODO à compléter...
         });
+    }
 
+    private AlertDialog generateCredentialAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(getString(R.string.main_credentials_err));
+        // Add the buttons
+        builder.setPositiveButton(getString(R.string.main_ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        return builder.create();
     }
 
     private static boolean isValidAddress(String email)

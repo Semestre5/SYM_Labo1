@@ -7,7 +7,6 @@
     <string name="main_validate_btn">Valider</string>
     <string name="main_cancel_btn">Annuler</string>
     <string name="main_create_account">Nouveau compte</string>
-    <string name="main_password_err">Le mot de passe est faux</string>
-    <string name="main_email_mismatch_err">Ce compte n\'existe pas</string>
+    <string name="main_credentials_err">Les identifiants sont faux</string>
     <string name="main_invalid_email">Une adresse mail est attendue</string>
 </resources>
