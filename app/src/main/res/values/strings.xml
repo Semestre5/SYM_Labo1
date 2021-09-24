@@ -8,5 +8,9 @@
     <string name="main_cancel_btn">Cancel</string>
     <string name="main_create_account">New account</string>
     <string name="main_icon_desc" translatable="false">Application\'s logo</string>
+    <string name="main_password_err">Password is wrong</string>
+    <string name="main_email_mismatch_err">Account does not exist</string>
+    <string name="main_invalid_email">Email address needed</string>
+    <string name="main_ok" translatable="false">OK</string>
 
 </resources>

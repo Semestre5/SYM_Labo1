@@ -1,9 +1,12 @@
 package ch.heigvd.iict.sym.labo1;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import androidx.core.util.Pair;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             String emailInput = email.getText().toString();
             String passwordInput = password.getText().toString();
 
-            if (emailInput.isEmpty() || passwordInput.isEmpty()){
+            if (emailInput.isEmpty() || passwordInput.isEmpty()) {
                 // on affiche un message dans les logs de l'application
                 Log.d(TAG, "Au moins un des deux champs est vide");
                 // on affiche un message d'erreur sur les champs qui n'ont pas été renseignés
@@ -73,12 +77,54 @@ public class MainActivity extends AppCompatActivity {
                     email.setError(getString(R.string.main_mandatory_field));
                 if (passwordInput.isEmpty())
                     password.setError(getString(R.string.main_mandatory_field));
-
                 return;
+            } else if (!isValidAddress(emailInput)) {
+                Toast toast = Toast.makeText(MainActivity.this,
+                        getString(R.string.main_invalid_email), Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                boolean emailFound = false;
+                for (Pair<String, String> cred: credentials) {
+                    if (cred.first.equals(emailInput)) {
+                        emailFound = true;
+                        if (!cred.second.equals(passwordInput)) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setMessage(getString(R.string.main_password_err));
+                            // Add the buttons
+                            builder.setPositiveButton(getString(R.string.main_ok), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User clicked OK button
+                                }
+                            });
+                            builder.create().show();
+                            return;
+                        } else {
+                            //connect
+                        }
+                    }
+                }
+                if (!emailFound) {
+                    email.setError(getString(R.string.main_email_mismatch_err));
+                }
             }
 
             //TODO à compléter...
         });
 
     }
+
+    private static boolean isValidAddress(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
 }
+
