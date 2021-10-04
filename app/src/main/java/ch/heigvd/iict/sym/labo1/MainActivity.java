@@ -51,44 +51,25 @@ public class MainActivity extends AppCompatActivity {
         validateButton = findViewById(R.id.main_validate);
         newAccountButton = findViewById(R.id.main_new_account);
 
+        //mise en place des événements
+        cancelButton.setOnClickListener(view -> {
+            Util.initCancelButton(email, password);
+        });
+
         newAccountButton.setOnClickListener(view -> {
             Intent switchActivityIntent = new Intent(this, NewAccountActivity.class);
             startActivityForResult(switchActivityIntent, Intent.FILL_IN_ACTION);
         });
-        //mise en place des événements
-        cancelButton.setOnClickListener(view -> {
-            //on va vider les champs de la page de login lors du clique sur le bouton Cancel
-            email.getText().clear();
-            password.getText().clear();
-            // on annule les éventuels messages d'erreur présents sur les champs de saisie
-            email.setError(null);
-            password.setError(null);
-        });
 
         validateButton.setOnClickListener(view -> {
             //on réinitialise les messages d'erreur
-            email.setError(null);
-            password.setError(null);
+            Util.resetError(email, password);
 
             //on récupère le contenu de deux champs dans des variables de type String
             String emailInput = email.getText().toString();
             String passwordInput = password.getText().toString();
 
-            if (emailInput.isEmpty() || passwordInput.isEmpty()) {
-                // on affiche un message dans les logs de l'application
-                Log.d(TAG, "Au moins un des deux champs est vide");
-                // on affiche un message d'erreur sur les champs qui n'ont pas été renseignés
-                // la méthode getString permet de charger un String depuis les ressources de
-                // l'application à partir de son id
-                if (emailInput.isEmpty())
-                    email.setError(getString(R.string.main_mandatory_field));
-                if (passwordInput.isEmpty())
-                    password.setError(getString(R.string.main_mandatory_field));
-            } else if (!Util.isValidAddress(emailInput)) {
-                Toast toast = Toast.makeText(MainActivity.this,
-                        getString(R.string.main_invalid_email), Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
+            if (Util.checkCredentialValidity(email, password, emailInput, passwordInput, TAG, MainActivity.this)){
                 for (Pair<String, String> cred: credentials) {
                     if (cred.first.equals(emailInput)) {
                         if (!cred.second.equals(passwordInput)) {
