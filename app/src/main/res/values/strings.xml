@@ -11,5 +11,6 @@
     <string name="main_credentials_err">Credentials are wrong</string>
     <string name="main_invalid_email">Email address needed</string>
     <string name="main_ok" translatable="false">OK</string>
+    <string name="new_account_title_text">Account creation</string>
 
 </resources>

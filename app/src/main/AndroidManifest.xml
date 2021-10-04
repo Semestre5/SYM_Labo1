@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.heigvd.iict.sym.labo1">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/SymTheme">
         <activity
-            android:name=".SecondActivity"
+            android:name=".NewAccountActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PostCoActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
