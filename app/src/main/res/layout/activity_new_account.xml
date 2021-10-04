@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".NewAccountActivity">
 
-    <ImageView
-        android:id="@+id/main_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/main_icon_desc"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground"
-        app:tint="@color/colorPrimaryDark" />
-
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="310dp"
@@ -85,13 +74,23 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         android:gravity="center"
-        android:textSize="32sp"
         android:text="@string/new_account_title_text"
-        app:layout_constraintBottom_toTopOf="@+id/main_logo"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="87dp"
+        android:layout_height="133dp"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.504" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/pngegg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
