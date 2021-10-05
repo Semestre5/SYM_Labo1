@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         // l'appel à la méthode onCreate de la super classe est obligatoire
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         // on définit le layout à utiliser pour l'affichage
         setContentView(R.layout.activity_main);
 
@@ -90,26 +91,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart");
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        Log.d(TAG, "onResume");
     }
 
     @Override
     protected void onPause(){
         super.onPause();
+        Log.d(TAG, "onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop");
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        Log.d(TAG, "onDestroy");
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode,
