@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 for (Pair<String, String> cred: credentials) {
                     if (cred.first.equals(emailInput)) {
                         if (!cred.second.equals(passwordInput)) {
-                            generateCredentialAlert();
+                            generateCredentialAlert().show();
                         } else {
                             Intent switchActivityIntent = new Intent(this, PostCoActivity.class);
                             switchActivityIntent.putExtra("account", emailInput);
