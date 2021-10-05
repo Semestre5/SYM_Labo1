@@ -30,9 +30,6 @@ public class Util {
         toast.show();
     }
 
-    /**
-     *
-     */
     public static boolean checkCredentialValidity(EditText emailBox, EditText pwdBox, String emailIn, String pwdIn, String TAG, AppCompatActivity activity){
         if(emailIn.isEmpty() || pwdIn.isEmpty()) {
             // on affiche un message dans les logs de l'application

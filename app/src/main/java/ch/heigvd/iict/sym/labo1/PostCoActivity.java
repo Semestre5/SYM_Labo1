@@ -20,7 +20,30 @@ public class PostCoActivity extends AppCompatActivity {
         //The key argument here must match that used in the other activity
         ImageView connected_image = (ImageView) findViewById(R.id.connected_image);
         new ImageDownloader(connected_image, "https://thispersondoesnotexist.com/image").show();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
     }
 }
