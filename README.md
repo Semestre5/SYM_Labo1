@@ -4,7 +4,13 @@
 
 Vous trouverez ci-dessous les réponses au questions:
 
-## 2.1: Langue de l'interface
+## Table des matières
+
+[TOC]
+
+## 2. Premières constations
+
+### 2.1: Langue de l'interface
 
 > Quel est l’intérêt de regrouper les chaînes de caractères dans un fichier XML indépendant à côté des layouts. Vous expliquerez également comment organiser les textes pour obtenir une application multi-langues (français, allemand, italien, langue par défaut : anglais) ? Que se passe-t-il si une traduction est manquante dans la langue par défaut ou dans une langue additionnelle ?
 
@@ -21,3 +27,35 @@ Dans un premier temps il faut cliquer sur le bouton 1, choisir une langue, et en
 Dans le cas où l'application ou un champ n'est pas traduit, l'application ira chercher le champ dans la langue par défaut. Par exemple, ci-dessous nous n'avons pas traduit le champ email et c'est le seul qui est en anglais.
 
 ![image-20210922113040796](README.assets/image-20210922113040796.png)
+
+### 2.2 Champs textuels de saisie
+
+Pour désactiver la correction automatique, il faut activer l'option:
+
+````xml
+android:inputType="textNoSuggestions"
+````
+
+Dans les champs concernés (email et mot de passe)
+
+Pour cacher les caractères dans le champ de mot de passe il faut activer:
+
+````xml
+android:inputType="textPassword|textNoSuggestions" 
+````
+
+Afin d'ajouter 2 options input type, il faut les concaténer avec un ``|`` entre les 2 options.
+
+### 2.3 Mode paysage
+
+Le mode paysage nécessite de créer une seconde vue pour l'activité principale. Pour se faire, il faut d'abords se rendre sur la vue portrait existante:
+
+![image-20211005143837786](README.assets/image-20211005143837786.png)
+
+Cliquer sur l'icône 1 puis sur Landscape. Ceci va créer une seconde vue paysage pour l'activité où il faudra replacer les layouts pour qu'ils correspondent à nos attentes de la vue paysage. Ceci fait, android gèrera automatiquement le passage à la vue paysage ou portrait en choisissant le bon xml.
+
+## 3. Gestion des événements et mise à jour de l’interface utilisateur
+
+### 3.1. Vérification du format de l’e-mail
+
+Pour vérifier le format de l'email. Nous avons 
