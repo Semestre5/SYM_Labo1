@@ -3,25 +3,22 @@ package ch.heigvd.iict.sym.labo1;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SearchRecentSuggestionsProvider;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LifeCycleLogPrinter {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-
+    private final static String TAG = MainActivity.class.getSimpleName();
     // on définit une liste de couples e-mail / mot de passe
     // ceci est fait juste pour simplifier ce premier laboratoire,
     // mais il est évident que de hardcoder ceux-ci est une pratique à éviter à tout prix...
@@ -39,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         // l'appel à la méthode onCreate de la super classe est obligatoire
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
         // on définit le layout à utiliser pour l'affichage
         setContentView(R.layout.activity_main);
 
@@ -86,37 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 generateCredentialAlert().show();
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Log.d(TAG, "onResume");
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop");
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode,

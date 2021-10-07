@@ -55,8 +55,7 @@ public class Util {
         emailBox.getText().clear();
         pwdBox.getText().clear();
         // on annule les éventuels messages d'erreur présents sur les champs de saisie
-        emailBox.setError(null);
-        pwdBox.setError(null);
+        resetError(emailBox, pwdBox);
     }
 
     public static void resetError(EditText emailBox, EditText pwdBox){

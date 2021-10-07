@@ -2,8 +2,6 @@
 
 # SYM: Labo 1 - Introduction à Android 
 
-Vous trouverez ci-dessous les réponses au questions:
-
 ## Table des matières
 
 [TOC]
@@ -129,3 +127,109 @@ La donnée passée est accessible via la clé "account", ici codée en dur. Il s
 
 ### 4.3. Permissions simples
 
+Sans indiquer à l'application qu'elle a besoin de permissions pour se connecter à internet, la connexion ne sera pas acceptée. Ainsi, il faut ajouter la ligne ``uses-persmission`` au début du AndroidManifest.xml
+
+````xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ch.heigvd.iict.sym.labo1">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    .
+    .
+    .
+````
+
+Ceci fait nous pouvons utiliser l'``ImageDownloader`` pour insérer une image dans la nouvelle activité. 
+
+Ainsi, il nous faut créer une nouvelle ``ImageView`` dans le layout de la nouvelle activité pour pourvoir la modifier et y insérer l'image qu'on télécharge. Ceci avec les lignes suivantes:
+
+````java
+ImageView connected_image = (ImageView) findViewById(R.id.connected_image);
+new ImageDownloader(connected_image, "https://thispersondoesnotexist.com/image").show();
+    
+````
+
+## 5. Navigation entre les activités
+
+### 5.1. TODO Création et lancement de la nouvelle activité
+
+Pour créer la nouvelle activité nous avons simplement cloné l'activité principale afin d'avoir les éléments dont nous avons besoin, à savoir:
+
+- champ d'entrée d'email
+- champ d'entrée de mot de passe
+- bouton ok
+- bouton annuler
+
+> Vous êtes libre d’utiliser la méthode de votre choix dans ce laboratoire, toutefois vous discuterez dans votre rapport des avantages / inconvénients des deux méthodes.
+
+Bien que la nouvelle méthode soit moins complexe quant il s'agit d'appeler une activité depuis une autre (ou un fragment), et bien qu'elle permette d'obtenir des permissions plus facilement aussi en ayant aussi un retour, nous avons choisi la méthode dépréciée. C'est à dire celle qui appelle ``startActivityForResult``
+
+### 5.2. Affichage d’une image
+
+> Dans quel(s) dossier(s) devons-nous ajouter cette image ? Veuillez décrire brièvement la logique derrière la gestion des ressources de type « image matricielle » sur Android. Quel intérêt voyez-vous donc à utiliser une image vectorielle ? Est-ce possible pour tout type d’images (logos, icônes, photos, etc.) ?![image-20211007132720283](../../../../../../../AppData/Roaming/Typora/draftsRecover/2021-10-6 README 141149.assets/image-20211007132720283.png)
+
+Afin d'insérer une image, il faut se rendre dans la vue et drag drop une imageView dans la vue (1). Ceci va ouvrir une fenêtre qui va nous permettre de créer une image vectorielle en cliquant sur le + (2). Ceci va créer un fichier xml dans le dossier layout. Ceci fait, nous pouvons nous rendre sur le site https://fonts.google.com/icons afin de télécharger une icone qui nous convienne. Nous pouvons ensuite prendre le contenu du fichier xml disponible dans l'archive et le copier coller dans le fichier que nous venons de créer.
+
+Nous aurions pu ajouter une image png mais ceci comporte le désavantage qu'elle ne va pas s'adapter à tous les écrans. Les images matricielle étant juste un ensemble de points défini dans un fichier, elles sont donc adaptable à la taille de l'écran des plus facilement. 
+
+Ici l'image a été ajouté au dossier layout car c'est une image qui apparaît dans l'application. Si nous avions voulu ajouter une icône il aurait fallut importer dans l'application plusieurs format d'icone car dans ce cas ce ne sont sont pas des images vectorielles mais des png. N'étant donc pas adaptable à la taille de l'écran il faut importer plusieurs qualités différentes pour le logo. Ces images serait à importer dans le dossier mipmap
+
+### 5.3. Factorisation du code
+
+Les explications liées à cette partie comprennent les modifications liées à la partie [5.4 Cycle de vie](#5.4-cycle-de-vie).
+
+Dans un premier temps nous avons factorisé le code de ``MainActivity`` et ``NewAccountActivity`` . Pour se faire nous avons ajouté plusieurs fonction à la classe ``Util`` afin de les appeler dans ces classe. 
+
+Nous avons ajoutés les fonctions:
+
+- ``displayInvalidAddressToast``: permet d'afficher le toast indiquant que le format de l'adresse mail est faux.
+- ``checkCredentialValidity``: vérifie la validité du format des crédentials. C'est-à-dire, si les champs obligatoires ont été rempli, et que le format de l'adresse mail est correct. 
+- ``initCancelButton``: les actions d'un bouton annulé, à savoir: vider les champs d'entrée et en retirer les erreur
+- ``resetError``: enlève les erreurs des champs.
+
+Les fonctions onCreate vont ensuite appeler ces différentes fonctions afin d'éviter la copie de code.
+
+Pour le cycle de vie, nous avons créé une classe ``LifeCycleLogPrinter`` qui contient toutes les fonctions liées au cycle de vie avec ce format:
+
+````java
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Log.d(this.getClass().getSimpleName(), "onCreate");
+}
+````
+
+Elle hérite de le AppCompatActivity.
+
+Ensuite nous avons fait hériter toutes nos activités de celle-ci afin que les logs affiche le cycle de vie de toutes les activités sans pour autant copier coller le code.
+
+### 5.4. Cycle de vie
+
+> Décrivez brièvement à quelles occasions ces méthodes sont invoquées. Vous expliquerez aussi l’enchainement de ces appels lorsque l’on passe d’une activité à une autre.
+
+``onCreate``: Nous nous rendons sur une activité qui n'est pas initialisé. Ceci arrive, soit parce que nous venons de lancer l'application et que l'activité n'a pas encore été appelée, soit parce que l'activité que nous appelons a été détruite et nécessite d'être à nouveau initialisée
+
+``onStart``: L'application viens d'être créée et nécessite donc un démarrage, ou alors l'activité a été stoppée et est réappelé nécessitant donc un redémarrage.
+
+``onResume``: reprend l'activité là où elle s'est pausée pour la dernière fois. Ceci peut arriver quand l'activité est démarrée pour la première fois ou parce que l'activité a été pausée et nécessite de reprendre.
+
+``onPause``: L'activité est pausé et conserve son état actuelle afin de la relancer le plus rapidement possible.
+
+``onStop``: L'activité est interrompu. Ceci peut arriver car elle était à l'état onPause mais que l'application a besoin des ressources qu'elle utilise pour sauvegarder son état. L'appareil va donc interrompre l'activité.
+
+``onDestroy``: L'activité est détruite car achevée. 
+
+Lorsque l'on passe d'une activité à une autre (par exemple entre ``MainActivity`` et ``NewAccountActivty``) l'application appelante va passer à l'état ``onPause``. La nouvelle activité passera par les états suivants:
+
+``onCreate``->``onStart``->``onResume``
+
+Une fois les 2 activités passeront par les états suivants:
+
+Activité appelée: ``onPause``-> ----------------------------- ``onStop``->``onResume``
+
+Activité appelante: --------------- ``onStart``->``onResume``
+
+**Remarque:** Une rotation de l'écran nécessite de recharger l'activité. De ce fait, l'activité va passer par ces états dans cet ordre: 
+
+onPause->onStop->onDestroy->onCreate->onStart->onResume
